@@ -9,8 +9,8 @@ window.onload = function() {
     next: null,
   };
 
-  document.getElementById('prev_page').onclick = PrevPage;
-  document.getElementById('next_page').onclick = NextPage;
+  document.getElementById('prev_page').addEventListener('click', PrevPage);
+  document.getElementById('next_page').addEventListener('click', NextPage);
 
   document.getElementById('query_box').onsubmit = function() {
     var target = document.getElementById('query_text').value;
@@ -45,6 +45,7 @@ window.onload = function() {
           var data = JSON.parse(xhr.responseText);
           // document.getElementById('streams_list').innerHTML = '';
           FillBodyBox(data);
+          console.log(data);
         } else {
           console.log('error : ', xhr.status);
         }
@@ -90,19 +91,21 @@ window.onload = function() {
 
     $bodyBox.insertBefore(streamList, oldList);    
     $bodyBox.removeChild(oldList);
-    console.log(streamList, oldList);
+    // console.log(streamList, oldList);
     // document.getElementById('body_box').replaceChild(streamList,oldNode);
   }
 
   function CreateTwitchEntry(entry) {
-    var twitchEntry ='<div class="stream_entry">' +
-                     '  <img src="' + entry.preview.medium + '" class="stream_image">' +
-                     '  <div class="stream_info">' +
-                     '    <div class="stream_name">' + entry.channel.display_name + '</div>' +
-                     '    <div class="stream_game">' + entry.channel.game + ' - ' + entry.channel.views + ' viewers</div>' +
-                     '    <div class="stream_description">' + entry.channel.status + '</div>' +
+    var twitchEntry ='<a href="' + entry.channel.url + '" target="_blank">' +
+                     '  <div class="stream_entry">' +
+                     '    <img src="' + entry.preview.medium + '" class="stream_image">' +
+                     '    <div class="stream_info">' +
+                     '      <div class="stream_name">' + entry.channel.display_name + '</div>' +
+                     '      <div class="stream_game">' + entry.channel.game + ' - ' + entry.channel.views + ' viewers</div>' +
+                     '      <div class="stream_description">' + entry.channel.status + '</div>' +
+                     '    </div>' +
                      '  </div>' +
-                     '</div>';
+                     '</a>';
     return twitchEntry;
   }
 

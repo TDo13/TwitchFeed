@@ -62,6 +62,21 @@ body {
   float: right;
 }
 
+a {
+  display: block;
+  text-decoration: none;
+  color: black;
+  background-color: white;
+  transition: background-color 1s, color 1s;
+  -moz-transition: background-color 1s, color 1s;
+  -webkit-transition: background-color 1s, color 1s;
+}
+
+a:hover {
+  color: white;
+  background-color: black
+}
+
 .stream_entry {
   border: 1px solid black;
   padding: 5px;
