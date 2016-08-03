@@ -1,0 +1,84 @@
+body {
+  width: 99%;
+}
+#twitch_feed {
+  margin: auto;
+  width: 50%;
+  border: 1px solid black;
+}
+
+#page_name {
+  text-align: center;
+}
+
+#header_box {
+  margin: auto;
+  height: 80px;
+  text-align: left;
+  border-bottom: 1px solid black;
+  padding-top: 10px;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+#form_invalid {
+  opacity: 0;
+  color: red;
+  transition: opacity .5s ease-in-out;
+   -moz-transition: opacity .5s ease-in-out;
+   -webkit-transition: opacity .5s ease-in-out;
+}
+
+#form_valid {
+  opacity: 0;
+  color: green;
+  transition: opacity .5s ease-in-out;
+   -moz-transition: opacity .5s ease-in-out;
+   -webkit-transition: opacity .5s ease-in-out;
+}
+
+#form_invalid.invalid {
+  color: red;
+  opacity: 1;
+}
+
+#form_valid.valid {
+  color: green;
+  opacity: 1;
+}
+
+#body_box {
+  margin: auto;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+#total_results {
+  text-align: left;
+}
+
+#page {
+  /*display: inline-block;*/
+  float: right;
+}
+
+.stream_entry {
+  border: 1px solid black;
+  padding: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  overflow: auto;
+}
+
+.stream_image {
+  vertical-align: top;
+  float:left;
+  padding-top: 1%;
+  padding-right: 1%;
+  columns: 1;
+  width: 100px;
+}
+
+.stream_info {
+  columns: 1;
+}

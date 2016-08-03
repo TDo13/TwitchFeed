@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TwitchFeed</title>
+  <script src="./app.js"></script>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+  <div id="twitch_feed">
+    <div id="header_box">
+      <div id="page_name"> Twitch Feed! </div>
+      <form id="query_box">
+        <br/>
+        <input type="text" id="query_text" placeholder="Search query..."/>
+        <input type="submit" id="query_submit" value="Search"/>
+      </form>
+      <span id="form_invalid"></span>
+      <span id="form_valid"></span>
+    </div>
+    <div id="body_box">
+      <span id="total_results"></span>
+      <span id="page">
+        <span id="prev_page" onclick="PrevPage()"><<</span>
+        <span id="curr_page">0 of 0</span>
+        <span id="next_page" onclick="NextPage()">>></span>
+      </span> 
+      <div id = "streams_list"></div>
+      <!-- <span> Placeholder for Twitch Feeds </span> -->
+    </div>
+  </div>
+</body>
+</html>
