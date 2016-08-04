@@ -1,6 +1,9 @@
 body {
   width: 99%;
 }
+button {
+  float: right;
+}
 #twitch_feed {
   margin: auto;
   width: 50%;
@@ -77,6 +80,26 @@ a:hover {
   background-color: black
 }
 
+#stream_view {
+  display: none;
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 */
+  padding-top: 25px;
+  height: 0;
+}
+
+#stream_view.show{
+  display: block;
+}
+
+#stream_view iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
 .stream_entry {
   border: 1px solid black;
   padding: 5px;
@@ -84,6 +107,17 @@ a:hover {
   margin-top: 10px;
   margin-bottom: 10px;
   overflow: auto;
+
+  color: black;
+  background-color: white;
+  transition: background-color 1s, color 1s;
+  -moz-transition: background-color 1s, color 1s;
+  -webkit-transition: background-color 1s, color 1s;
+}
+
+.stream_entry:hover {
+  color: white;
+  background-color: black
 }
 
 .stream_image {
@@ -93,8 +127,10 @@ a:hover {
   padding-right: 1%;
   columns: 1;
   width: 100px;
+  pointer-events: none;
 }
 
 .stream_info {
   columns: 1;
+  pointer-events: none;
 }

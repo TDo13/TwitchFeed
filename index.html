@@ -4,6 +4,7 @@
   <title>TwitchFeed</title>
   <script src="./app.js"></script>
   <link rel="stylesheet" type="text/css" href="styles.css">
+  <script src= "http://player.twitch.tv/js/embed/v1.js"></script>
 </head>
 <body>
   <div id="twitch_feed">
@@ -16,6 +17,7 @@
       </form>
       <span id="form_invalid"></span>
       <span id="form_valid"></span>
+      <button type="button">Hide/Show Player</button>
     </div>
     <div id="body_box">
       <span id="total_results"></span>
@@ -24,6 +26,7 @@
         <span id="curr_page">0 of 0</span>
         <span id="next_page">>></span>
       </span>
+      <div id="stream_view"></div>
       <div class = "streams_list"></div>
       <!-- <span> Placeholder for Twitch Feeds </span> -->
     </div>

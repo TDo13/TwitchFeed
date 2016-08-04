@@ -7,10 +7,13 @@ window.onload = function() {
     prev: null,
     selfURI: null,
     next: null,
+    player: null,
   };
 
   document.getElementById('prev_page').addEventListener('click', PrevPage);
   document.getElementById('next_page').addEventListener('click', NextPage);
+  document.getElementById('body_box').addEventListener('click', OnChannelClick);
+  document.querySelector('button').onclick=ToggleTwitchPlayer;
 
   document.getElementById('query_box').onsubmit = function() {
     var target = document.getElementById('query_text').value;
@@ -21,13 +24,13 @@ window.onload = function() {
       formValid.innerHTML = '';
       formInvalid.className = 'invalid';
       formInvalid.innerHTML = 'Please enter a query!';
-      console.log('Invalid search');
+      // console.log('Invalid search');
     } else {
       formInvalid.className = '';
       formInvalid.innerHTML = '';
       formValid.className = 'valid';
       formValid.innerHTML = 'Searching for "' + target + '".';
-      console.log('Valid search');
+      // console.log('Valid search');
       SearchAPI(_env.url + 'search/streams?q=' + target);
     }
     return false;
@@ -47,7 +50,7 @@ window.onload = function() {
           FillBodyBox(data);
           console.log(data);
         } else {
-          console.log('error : ', xhr.status);
+          // console.log('error : ', xhr.status);
         }
       }
       // console.log('Received all entries');
@@ -84,7 +87,7 @@ window.onload = function() {
     streamList.className = 'streams_list';
     streamList.id = 'page_' + _env.page;
     streamList.innerHTML = htmlString;
-    oldList = $bodyBox.children[2];
+    oldList = $bodyBox.querySelector('.streams_list');
     // var oldNode = document.querySelector('div.streams_list')
 
     //hide the old list of streams (remove if one already exists) 
@@ -96,35 +99,74 @@ window.onload = function() {
   }
 
   function CreateTwitchEntry(entry) {
-    var twitchEntry ='<a href="' + entry.channel.url + '" target="_blank">' +
-                     '  <div class="stream_entry">' +
-                     '    <img src="' + entry.preview.medium + '" class="stream_image">' +
-                     '    <div class="stream_info">' +
-                     '      <div class="stream_name">' + entry.channel.display_name + '</div>' +
-                     '      <div class="stream_game">' + entry.channel.game + ' - ' + entry.channel.views + ' viewers</div>' +
-                     '      <div class="stream_description">' + entry.channel.status + '</div>' +
-                     '    </div>' +
+    var twitchEntry ='<div class="stream_entry">' +
+                     '  <img src="' + entry.preview.medium + '" class="stream_image">' +
+                     '  <div class="stream_info">' +
+                     '    <div class="stream_name">' + entry.channel.display_name + '</div>' +
+                     '    <div class="stream_game">' + entry.channel.game + ' - ' + entry.channel.views + ' viewers</div>' +
+                     '    <div class="stream_description">' + entry.channel.status + '</div>' +
                      '  </div>' +
-                     '</a>';
+                     '</div>';
     return twitchEntry;
   }
 
+  function CreateTwitchPlayer(channelName) {
+    var options = {
+      width: 854,
+      height: 480,
+      channel: channelName,
+    };
+    if (document.querySelector('iframe')) {
+      console.log('iframe exists');
+      _env.player.setChannel(channelName);
+      return;
+    } else {
+      _env.player = new Twitch.Player("stream_view", options);
+      _env.player.setVolume(0.5);
+    }
+  }
+
+  function ToggleTwitchPlayer() {
+    console.log('test');
+    var div = document.getElementById('stream_view');
+    if (div.className !== 'show') {
+      div.className = 'show';
+      if (_env.player) {
+        _env.player.play();
+      }
+    }
+    else {
+      div.className = 'hide';
+      if (_env.player) {
+        _env.player.pause();
+      }
+    }
+  }
+
   function NextPage() {
-    console.log('Next!');
+    // console.log('Next!');
     if (_env.next) {
       SearchAPI(_env.next);
     } else {
-      console.log('No next page!');
+      // console.log('No next page!');
     }
   }
 
   function PrevPage() {
-    console.log('Prev!');
+    // console.log('Prev!');
     if (_env.prev) {
       SearchAPI(_env.prev);
     } else {
-      console.log('No prev page!');
+      // console.log('No prev page!');
     }
+  }
+
+  function OnChannelClick(event) {
+    var name = event.target.children[1].children[0].textContent;
+    console.log('OCC', name);
+    //Want to show a box that either creates iFrame or link to twitch.tv
+
+    CreateTwitchPlayer(name);
   }
 
   function parseURI(name, url) {
