@@ -1,4 +1,5 @@
 'use strict';
+// var cbWrapper = function() {};
 
 window.onload = function() {
   var _env = {
@@ -10,8 +11,9 @@ window.onload = function() {
     player: null,
   };
 
-  document.getElementById('prev_page').addEventListener('click', PrevPage);
-  document.getElementById('next_page').addEventListener('click', NextPage);
+  // Refactor to a single event handler click on document.
+  // document.getElementById('prev_page').addEventListener('click', PrevPage);
+  // document.getElementById('next_page').addEventListener('click', NextPage);
   document.getElementById('body_box').addEventListener('click', OnChannelClick);
   document.querySelector('button').onclick=ToggleTwitchPlayer;
 
@@ -36,25 +38,50 @@ window.onload = function() {
     return false;
   };
 
-  function SearchAPI(query) {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', query);
-    xhr.setRequestHeader('Client-ID', 'n3w0us084we2q25klwyasqv5dp1kmb1'); //Twitch API Key
-    xhr.send(null);
-
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState === 4) {
-        if (xhr.status === 200) {
-          var data = JSON.parse(xhr.responseText);
-          // document.getElementById('streams_list').innerHTML = '';
-          FillBodyBox(data);
-          console.log(data);
-        } else {
-          // console.log('error : ', xhr.status);
-        }
-      }
-      // console.log('Received all entries');
+  function jsonp(url, success, fail, timeout) {
+    var time = timeout || 5;
+    var timeoutTrigger = window.setTimeout(function() {
+      window.cbWrapper = function() {};
+      fail();
+    }, time*1000);
+    window.cbWrapper = function(data) {
+      window.clearTimeout(timeoutTrigger);
+      success(data);
     };
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.async = true;
+    script.src = url+'&callback=cbWrapper';
+
+    document.querySelector('head').appendChild(script);
+  }
+
+  function SearchAPI(query) {
+    // var xhr = new XMLHttpRequest();
+    // xhr.open('GET', query);
+    // xhr.setRequestHeader('Client-ID', 'n3w0us084we2q25klwyasqv5dp1kmb1'); //Twitch API Key
+    // xhr.send(null);
+
+    // xhr.onreadystatechange = function() {
+    //   if (xhr.readyState === 4) {
+    //     if (xhr.status === 200) {
+    //       var data = JSON.parse(xhr.responseText);
+    //       // document.getElementById('streams_list').innerHTML = '';
+    //       FillBodyBox(data);
+    //       console.log(data);
+    //     } else {
+    //       // console.log('error : ', xhr.status);
+    //     }
+    //   }
+    //   // console.log('Received all entries');
+    // };
+    jsonp(query, 
+      function(data) {
+        FillBodyBox(data);
+      },
+      function() {
+        console.log('Error retrieving data');
+      });
   }
 
   function FillBodyBox(data) {
@@ -127,7 +154,6 @@ window.onload = function() {
   }
 
   function ToggleTwitchPlayer() {
-    console.log('test');
     var div = document.getElementById('stream_view');
     if (div.className !== 'show') {
       div.className = 'show';
@@ -148,7 +174,7 @@ window.onload = function() {
     if (_env.next) {
       SearchAPI(_env.next);
     } else {
-      // console.log('No next page!');
+      console.log('No next page!');
     }
   }
 
@@ -157,16 +183,23 @@ window.onload = function() {
     if (_env.prev) {
       SearchAPI(_env.prev);
     } else {
-      // console.log('No prev page!');
+      console.log('No prev page!');
     }
   }
 
   function OnChannelClick(event) {
-    var name = event.target.children[1].children[0].textContent;
-    console.log('OCC', name);
-    //Want to show a box that either creates iFrame or link to twitch.tv
+    console.log(event.target);
+    if (event.target.className === "stream_entry") {
+      var name = event.target.children[1].children[0].textContent;
+      console.log('Channel Selected : ', name);
+      //Want to show a box that either creates iFrame or link to twitch.tv
 
-    CreateTwitchPlayer(name);
+      CreateTwitchPlayer(name);
+    } else if (event.target.id === 'prev_page') {
+      PrevPage();
+    } else if (event.target.id === 'next_page') {
+      NextPage();
+    }
   }
 
   function parseURI(name, url) {
