@@ -114,7 +114,7 @@ window.onload = function() {
     _env.prev = (_env.page <= 1) ? null : data._links.prev;
     _env.next = (_env.page >= lastPage) ? null : data._links.next;
     bodyBox.querySelector('#total_results').textContent = 'Total results: ' + total;
-    bodyBox.querySelector('#body_box_header').className = '';
+    bodyBox.querySelector('#body_box_header').className = 'visible';
     bodyBox.querySelector('#curr_page').textContent = _env.page + '/' + lastPage;
   }
 
