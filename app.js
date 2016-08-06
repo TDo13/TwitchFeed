@@ -13,29 +13,21 @@ window.onload = function() {
     player: null,
   };
 
-  // Refactor to a single event handler click on document.
-  // document.getElementById('prev_page').addEventListener('click', PrevPage);
-  // document.getElementById('next_page').addEventListener('click', NextPage);
-  // document.querySelector('#toggle_player').onclick=ToggleTwitchPlayer;
   document.getElementById('body_box').addEventListener('click', OnChannelClick);
   document.getElementById('header_box').addEventListener('click', OnHeaderClick);
 
   document.getElementById('query_box').onsubmit = function() {
     var target = document.getElementById('query_text').value;
     var formValid = document.getElementById('form_valid');
+    formValid.className = '';
+    formValid.className = 'searching';
     if (target.length < 1) {
       // formValid.className = 'error';
-      formValid.className = '';
-      formValid.className = 'searching';
       formValid.innerHTML = 'Displaying top streams...';
-      formValid.style.color = 'green';
       SetSearchType(document.querySelector('#default_search_type'));
       SearchAPI(_env.url + 'streams/?');
     } else {
-      formValid.className = '';
-      formValid.className = 'searching';
       formValid.innerHTML = 'Searching for ' + target + '...';
-      formValid.style.color = 'green';
       SearchAPI(_env.url + 'search/' + _env.searchType + '?limit=' + _env.limit + '&q=' + target + _env.options);
     }
     return false;
@@ -72,7 +64,6 @@ window.onload = function() {
     jsonp(query, 
       function(data) {
         FillBodyBox(data);
-        // document.getElementById('form_valid').className = '';
       },
       function() {
         console.log('Error retrieving data');
@@ -104,14 +95,10 @@ window.onload = function() {
     streamList.id = 'page_' + _env.page;
     streamList.innerHTML = htmlString;
     oldList = $bodyBox.querySelector('.streams_list');
-    // var oldNode = document.querySelector('div.streams_list')
 
     //hide the old list of streams (remove if one already exists) 
-
     $bodyBox.insertBefore(streamList, oldList);    
     $bodyBox.removeChild(oldList);
-    // console.log(streamList, oldList);
-    // document.getElementById('body_box').replaceChild(streamList,oldNode);
   }
 
   function UpdateBodyBoxHeaders(data, bodyBox) {
