@@ -1,0 +1,307 @@
+body {
+  font-family: Arial, sans-serif;
+  width: 99%;
+  color: black;
+  /*color: #6441a4;*/
+  background: #6441a5;
+  cursor: default;
+}
+
+#twitch_feed {
+  margin: auto;
+  width: 50%;
+  border: 1px solid black;
+  background: #d8dce0;
+}
+
+#query_box {
+  text-align: center;
+}
+#query_box #query_text {
+  font-size: 12pt;
+}
+
+#toggle_options {
+  min-width: 90px;
+}
+
+#additional_options {
+  border-top: .5px solid black;
+  margin: 0;
+  font-size: small;
+  padding-bottom: 5px;
+}
+
+#additional_options ul {
+  display: inline-block;
+  margin-left: 0;
+  margin-right: 0;
+  padding: 0;
+  margin: 0;
+  text-decoration: underline;
+  text-align: left;
+  font-size: x-small;
+}
+
+#additional_options ul.selected {
+  font-weight: bold;
+}
+
+#page_name {
+  text-align: center;
+}
+
+#header_box {
+  margin: auto;
+  min-height: 80px;
+  text-align: left;
+  border-bottom: 1px solid black;
+  padding-top: 10px;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+#form_valid {
+  opacity: 0;
+  color: green;
+  transition: opacity .5s ease-in-out;
+  -moz-transition: opacity .5s ease-in-out;
+  -webkit-transition: opacity .5s ease-in-out;
+}
+
+#form_valid.searching {
+  opacity: 1;
+}
+
+#body_box {
+  margin: auto;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+#total_results {
+  text-align: left;
+}
+
+#page {
+  float: right;
+}
+
+#page #prev_page {
+  cursor: pointer;
+}
+
+#page #next_page {
+  cursor: pointer;
+}
+
+.hidden {
+  opacity: 0;
+  display: none;
+}
+
+#stream_view {
+  display: none;
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 */
+  padding-top: 25px;
+  height: 0;
+}
+
+#stream_view.show{
+  display: block;
+}
+
+#stream_view iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.close_stream {
+  color: #777;
+  position: absolute;
+  overflow: hidden;
+  right: -15px;
+  top: 0px;
+  text-decoration: none;
+  text-shadow: 0 1px 0 #fff;
+}
+
+.stream_entry {
+  border: 1px solid black;
+  padding: 5px;
+  min-height: 70px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  overflow: auto;
+
+  color: black;
+  background-color: #eee;
+  transition: background-color .5s, color .5s;
+  -moz-transition: background-color .5s, color .5s;
+  -webkit-transition: background-color .5s, color .5s;
+}
+
+.stream_entry:hover {
+  color: black;
+  background-color: white;
+  cursor: pointer;
+}
+
+.stream_image {
+  vertical-align: top;
+  float:left;
+  padding-top: 1%;
+  padding-right: 1%;
+  columns: 1;
+  width: 100px;
+  pointer-events: none;
+}
+
+.stream_info {
+  columns: 1;
+  pointer-events: none;
+}
+
+.stream_info .stream_name {
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 21.6px
+}
+
+.stream_info .stream_game {
+  font-size: 13px;
+  line-height: 18px
+}
+
+.stream_info .game {
+  font-weight: bold;
+}
+
+.stream_info .stream_description {
+  font-size: 13px;
+  font-weight: normal;
+  line-height: 18px
+}
+
+a {
+  text-decoration: none;
+}
+
+.channel_entry {
+  border: 1px solid black;
+  padding: 5px;
+  min-height: 70px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  overflow: auto;
+
+  color: black;
+  background-color: #eee;
+  transition: background-color .5s, color .5s;
+  -moz-transition: background-color .5s, color .5s;
+  -webkit-transition: background-color .5s, color .5s;
+}
+
+.channel_entry:hover {
+  color: black;
+  background-color: white;
+  cursor: pointer;
+}
+
+.channel_image {
+  vertical-align: top;
+  float:left;
+  padding-top: 1%;
+  padding-right: 1%;
+  columns: 1;
+  width: 100px;
+  pointer-events: none;
+}
+
+.channel_info {
+  columns: 1;
+  pointer-events: none;
+}
+
+.channel_info .channel_name {
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 21.6px
+}
+
+.channel_info .channel_game {
+  font-size: 13px;
+  line-height: 18px
+}
+
+.channel_info .game {
+  font-weight: bold;
+}
+
+.game_entry {
+  border: 1px solid black;
+  padding: 5px;
+  min-height: 70px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  overflow: auto;
+
+  color: black;
+  background-color: #eee;
+  transition: background-color .5s, color .5s;
+  -moz-transition: background-color .5s, color .5s;
+  -webkit-transition: background-color .5s, color .5s;
+}
+
+.game_entry:hover {
+  color: black;
+  background-color: white;
+  cursor: pointer;
+}
+
+.game_image {
+  vertical-align: top;
+  float:left;
+  padding-top: 1%;
+  padding-right: 1%;
+  columns: 1;
+  width: 100px;
+  pointer-events: none;
+}
+
+.game_info {
+  columns: 1;
+  pointer-events: none;
+}
+
+.game_info .game_name {
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 21.6px
+}
+
+.game_info .game_game {
+  font-size: 13px;
+  line-height: 18px
+}
+
+#twitch_chat {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 25%;
+  min-width:250px;
+}
+
+#twitch_chat iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>TwitchFeed</title>
+  <script src="./app.js"></script>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <script src= "http://player.twitch.tv/js/embed/v1.js"></script>
+</head>
+<body>
+  <div id="twitch_feed">
+    <div id="header_box">
+      <div id="page_name"> Twitch Feed! </div>
+      <form id="query_box">
+        <br/>
+        <input type="text" id="query_text" placeholder="Search query..."/>
+        <input type="submit" id="query_submit" value="Search"/>
+        <div>
+          <span id="form_invalid"></span>
+          <span id="form_valid">Is query valid?</span>
+        </div>
+      </form>
+      <button id="toggle_options"> Advanced </button>
+      <!-- <button type="button" id="toggle_player" class="hidden">Hide/Show Player</button> -->
+      <div id="additional_options" class="hidden">
+        <div id="search_type"> Search for : 
+          <ul id="default_search_type" class="selected">streams</ul>
+          <ul>channels</ul>
+          <ul>games</ul>
+        </div>
+        <div id="results_per_page"> Results per page : 
+          <ul id="default_result_val" class="selected">10</ul>
+          <ul>25</ul>
+          <ul>50</ul>
+          <ul>100</ul>
+        </div>
+      </div>
+    </div>
+    <div id="body_box">
+      <span id="body_box_header" class="hidden">
+        <span id="total_results"></span>
+        <span id="page">
+          <span id="prev_page">◄</span>
+          <span id="curr_page">0 of 0</span>
+          <span id="next_page">►</span>
+        </span>
+      </span>
+      <div id="stream_view">
+        <a href="#" class="close_stream">✖</a>
+      </div>
+      <div class = "streams_list"></div>
+      <!-- Placeholder for Twitch Feeds -->
+    </div>
+  </div>
+  <!-- <div id="twitch_chat">
+    <iframe frameborder="0" 
+          scrolling="no" 
+          id="chat_embed" 
+          src="http://www.twitch.tv/{CHANNEL}/chat" 
+          height="500px" 
+          width="300px">
+    </iframe>
+  </div> -->
+</body>
+</html>
