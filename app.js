@@ -119,14 +119,16 @@ window.onload = function() {
   }
 
   function CreateStreamEntry(entry) {
-    var twitchEntry ='<div class="stream_entry">' +
-                     '  <img src="' + entry.preview.medium + '" class="stream_image">' +
-                     '  <div class="stream_info">' +
-                     '    <div class="stream_name">' + entry.channel.display_name + '</div>' +
-                     '    <div class="stream_game"><span class=game>' + entry.channel.game + '</span> - ' + entry.viewers + ' viewers</div>' +
-                     '    <div class="stream_description">' + entry.channel.status + '</div>' +
+    var twitchEntry ='<a href="#">' +
+                     '  <div class="stream_entry">' +
+                     '    <img src="' + entry.preview.medium + '" class="stream_image">' +
+                     '    <div class="stream_info">' +
+                     '      <div class="stream_name">' + entry.channel.display_name + '</div>' +
+                     '      <div class="stream_game"><span class=game>' + entry.channel.game + '</span> - ' + entry.viewers + ' viewers</div>' +
+                     '      <div class="stream_description">' + entry.channel.status + '</div>' +
+                     '    </div>' +
                      '  </div>' +
-                     '</div>';
+                     '</a>';
     return twitchEntry;
   }
 
@@ -165,7 +167,7 @@ window.onload = function() {
     };
     var stream = document.querySelector('#stream_view');
     if (stream.querySelector('iframe')) {
-      console.log('iframe exists');
+      // console.log('iframe exists');
       _env.player.setChannel(channelName);
       _env.player.play();
     } else {
@@ -233,11 +235,11 @@ window.onload = function() {
     var name;
     if (event.target.className === "stream_entry") {
       name = event.target.children[1].children[0].textContent;
-      console.log('Channel Selected : ', name);
+      // console.log('Channel Selected : ', name);
       CreateTwitchPlayer(name);
     } else if (event.target.className === "channel_entry") {
       name = event.target.children[1].children[0].textContent;
-      console.log('Channel Selected : ', name);
+      // console.log('Channel Selected : ', name);
       // window.open(name);
     } else if (event.target.id === 'prev_page') {
       PrevPage();
