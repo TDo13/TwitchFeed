@@ -17,21 +17,25 @@ window.onload = function() {
   document.getElementById('header_box').addEventListener('click', OnHeaderClick);
 
   document.getElementById('query_box').onsubmit = function() {
+    Search(true);
+    return false;
+  };
+
+  function Search(handleEmptyQuery = false) {
     var target = document.getElementById('query_text').value;
     var formValid = document.getElementById('form_valid');
     formValid.className = '';
     formValid.className = 'searching';
-    if (target.length < 1) {
+    if (handleEmptyQuery && (target.length < 1)) {
       // formValid.className = 'error';
       formValid.innerHTML = 'Displaying top streams...';
       SetSearchType(document.querySelector('#default_search_type'));
       SearchAPI(_env.url + 'streams/?');
-    } else {
+    } else if (target.length >= 1) {
       formValid.innerHTML = 'Searching for ' + target + '...';
       SearchAPI(_env.url + 'search/' + _env.searchType + '?limit=' + _env.limit + '&q=' + target + _env.options);
     }
-    return false;
-  };
+  }
 
   function OpenOptions() {
     var options = document.querySelector('#additional_options');
@@ -223,12 +227,14 @@ window.onload = function() {
     }
     document.getElementsByClassName('selected')[0].className = '';
     node.className = 'selected';
+    Search();
   }
 
   function SetResultsVal(node) {
     _env.limit = parseInt(node.textContent);
     document.getElementsByClassName('selected')[1].className = '';
     node.className = 'selected';
+    Search();
   }
 
   function OnChannelClick(event) {
