@@ -28,9 +28,9 @@ window.onload = function() {
     formValid.className = 'searching';
     if (handleEmptyQuery && (target.length < 1)) {
       // formValid.className = 'error';
-      formValid.innerHTML = 'Displaying top streams...';
+      formValid.innerHTML = 'Displaying top streams';
       SetSearchType(document.querySelector('#default_search_type'));
-      SearchAPI(_env.url + 'streams/?');
+      SearchAPI(_env.url + 'streams/?limit=' + _env.limit);
     } else if (target.length >= 1) {
       formValid.innerHTML = 'Searching for ' + target + '...';
       SearchAPI(_env.url + 'search/' + _env.searchType + '?limit=' + _env.limit + '&q=' + target + _env.options);
@@ -67,6 +67,7 @@ window.onload = function() {
   function SearchAPI(query) {
     jsonp(query, 
       function(data) {
+        console.log(data);
         FillBodyBox(data);
       },
       function() {
@@ -234,7 +235,7 @@ window.onload = function() {
     _env.limit = parseInt(node.textContent);
     document.getElementsByClassName('selected')[1].className = '';
     node.className = 'selected';
-    Search();
+    Search(true);
   }
 
   function OnChannelClick(event) {
@@ -274,4 +275,6 @@ window.onload = function() {
     var results = regex.exec(url);
     return !results ? null : (!results[2] ? '' : decodeURIComponent(results[2].replace(/\+/g, " ")));
   }
+
+  Search(true);
 };
