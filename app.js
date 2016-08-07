@@ -67,7 +67,7 @@ window.onload = function() {
   function SearchAPI(query) {
     jsonp(query, 
       function(data) {
-        console.log(data);
+        // console.log(data);
         FillBodyBox(data);
       },
       function() {
