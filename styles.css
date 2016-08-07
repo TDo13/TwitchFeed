@@ -14,12 +14,6 @@ body {
   background: #d8dce0;
 }
 
-@media screen and (max-width: 600) {
- #twitch_feed {
-  width: 99%;
- } 
-}
-
 #query_box {
   text-align: center;
 }
