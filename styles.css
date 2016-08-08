@@ -80,6 +80,10 @@ body {
   opacity: 1;
 }
 
+#form_valid.error {
+  opacity: 1;
+}
+
 #body_box {
   margin: auto;
   padding-left: 5%;

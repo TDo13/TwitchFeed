@@ -62,7 +62,8 @@
   </div> -->
   <script src= "http://player.twitch.tv/js/embed/v1.js"></script>
   <!-- <script src="./app.js"></script> -->
-  <script src="./Utilities/EventHAndler.js"></script>
+  <script src="./Utilities/EventHandler.js"></script>
+  <script src="./Utilities/jsonp.js"></script>
   <script src="./Models/AppModel.js"></script>
   <script src="./Views/AppView.js"></script>
   <script src="./Controllers/AppController.js"></script>
@@ -76,7 +77,7 @@
         queryBox: document.getElementById('query_box'),
       });
       var controller = new AppController(model, view);
-      controller.Search(document.getElementById('query_box'), true);
+      controller.Search(null, true);
     };
   </script>
 </body>

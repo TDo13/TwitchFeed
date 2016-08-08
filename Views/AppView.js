@@ -14,20 +14,23 @@ function AppView(model, elements) {
   this._model.newStreams.attach(function() {
     _this.FillBodyBox();
   });
+  this._model.newSearch.attach(function(sender, args) {
+    _this.UpdateSearchView(args);
+  });
   this._model.newLimit.attach(function(sender, args) {
     _this.UpdateAdvanced('limit', args);
   });
   this._model.newSearchType.attach(function(sender, args) {
     _this.UpdateAdvanced('searchType', args);
   });
-  this._model.newPlayer.attach(function(sender, args) {
-    _this.TogglePlayer(args.bool, args.stream);
+  this._model.newBodyBoxHeader.attach(function(sender, args) {
+    _this.UpdateBodyBoxHeader(args);
   });
   this._model.newPlayerToggle.attach(function(sender, args) {
-    _this.TogglePlayer(args.bool, args.stream);
+    _this.TogglePlayer(args.setActive);
   });
-  this._model.newAdvancedToggle.attach(function(sender, args) {
-    _this.ToggleAdvanced(args.toggle, args.advanced);
+  this._model.newAdvancedToggle.attach(function() {
+    _this.ToggleAdvanced();
   });
 
   //Attaching listeners from view to HTML
@@ -38,13 +41,23 @@ function AppView(model, elements) {
     _this.OnHeaderClick.notify({event: e});
   });
   this._elements.queryBox.addEventListener('submit', function(e) {
+    e.preventDefault();
     _this.OnQuerySubmit.notify({event: e.target});
-    return false;
   });
 }
 
 AppView.prototype = {
-  // Controller needs to change the data and the view updates
+  UpdateSearchView: function(args) {
+    var formValid = document.getElementById('form_valid');
+    if (args.isSearching) {
+      formValid.className = 'searching';
+      formValid.innerHTML = args.innerHTML;
+    } else {
+      formValid.className = 'error';
+      formValid.innerHTML = args.innerHTML;
+    }
+  },
+
   FillBodyBox: function() {
     // this._model.SetSelfURI(data._links.self);
     var data = this._model.GetStreams();
@@ -53,9 +66,7 @@ AppView.prototype = {
     var $bodyBox = document.getElementById('body_box');
     var searchType = this._model.GetSearchType();
     var _this = this;
-    console.log('before');
     if(data[searchType]) {
-      console.log('after');
     htmlString = '';
       data[searchType].forEach(function(entry) {
         if (searchType === 'streams') {
@@ -70,7 +81,7 @@ AppView.prototype = {
       //create a new list of streams
       streamList = document.createElement('div');
       streamList.className = 'streams_list';
-      streamList.id = 'page_' + this._model.GetPageNum();
+      streamList.id = 'page_' + this._model.GetBodyBoxHeaders().page;
       streamList.innerHTML = htmlString;
       oldList = $bodyBox.querySelector('.streams_list');
 
@@ -121,9 +132,10 @@ AppView.prototype = {
     return gameEntry;
   },
 
-  TogglePlayer: function(bool, stream) {
+  TogglePlayer: function(bool) {
+    var stream = document.querySelector('#stream_view');
     var player = this._model.GetTwitchPlayer();
-    if (bool) {
+    if (stream.className !== 'show' || bool) {
       stream.className = 'show';
       if (player) {
         player.play();
@@ -137,26 +149,44 @@ AppView.prototype = {
     }
   },
 
-  ToggleAdvanced: function(event, advanced) {
-    if (event) {
-      advanced.className = 'hidden';
+  ToggleAdvanced: function() {
+    var options = document.querySelector('#additional_options');
+    if (options.className === '') {
+      options.className = 'hidden';
     } else {
-      advanced.className = '';
+      options.className = '';
     }
   },
 
   UpdateAdvanced: function(type, args) {
     var advancedOptions = document.getElementsByClassName('selected');
+    var target = document.getElementById('query_box');
+    var topStreams = false;
     if (type === 'searchType') {
       advancedOptions[0].className = '';
-      args.node.className = 'selected';
+      if (args.node.id === 'page_name') {
+        topStreams = true;
+        target.reset();
+        document.getElementById('default_search_type').className = 'selected';
+      } else {
+        args.node.className = 'selected';
+      }
     }
     else if (type === 'limit') {
       advancedOptions[1].className = '';
       args.node.className = 'selected';
+      topStreams = target[0].value ? false : true;
     }
     this.NewSearch.notify({
-      target: document.getElementById('query_box'),
+      target: target,
+      bool: topStreams,
     });
+  },
+
+  UpdateBodyBoxHeader: function(bodyBoxHeader) {
+    var bodyBox = document.getElementById('body_box');
+    bodyBox.querySelector('#total_results').textContent = 'Total results: ' + bodyBoxHeader.total;
+    bodyBox.querySelector('#body_box_header').className = 'visible';
+    bodyBox.querySelector('#curr_page').textContent = bodyBoxHeader.page + '/' + bodyBoxHeader.lastPage;
   }
 };
