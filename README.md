@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # TwitchFeed
 =======
 # TwitchFeed
@@ -30,4 +29,3 @@ Twitch Feed makes use of no front-end frameworks; however, it was written in sim
 
 ## Contributors
 Tim Do
->>>>>>> gh-pages
