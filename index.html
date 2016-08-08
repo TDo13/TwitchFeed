@@ -2,10 +2,9 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TwitchFeed</title>
-  <script src="./app.js"></script>
   <link rel="stylesheet" type="text/css" href="styles.css">
-  <script src= "http://player.twitch.tv/js/embed/v1.js"></script>
 </head>
 <body>
   <div id="twitch_feed">
@@ -61,5 +60,25 @@
           width="300px">
     </iframe>
   </div> -->
+  <script src= "http://player.twitch.tv/js/embed/v1.js"></script>
+  <!-- <script src="./app.js"></script> -->
+  <script src="./Utilities/EventHandler.js"></script>
+  <script src="./Utilities/jsonp.js"></script>
+  <script src="./Models/AppModel.js"></script>
+  <script src="./Views/AppView.js"></script>
+  <script src="./Controllers/AppController.js"></script>
+  <script>
+    'use strict';
+    window.onload = function() {
+      var model = new AppModel();
+      var view = new AppView(model, {
+        bodyBox: document.getElementById('body_box'),
+        headerBox: document.getElementById('header_box'),
+        queryBox: document.getElementById('query_box'),
+      });
+      var controller = new AppController(model, view);
+      controller.Search(null, true);
+    };
+  </script>
 </body>
 </html>

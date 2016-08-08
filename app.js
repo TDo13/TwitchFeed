@@ -17,21 +17,25 @@ window.onload = function() {
   document.getElementById('header_box').addEventListener('click', OnHeaderClick);
 
   document.getElementById('query_box').onsubmit = function() {
+    Search(true);
+    return false;
+  };
+
+  function Search(handleEmptyQuery = false) {
     var target = document.getElementById('query_text').value;
     var formValid = document.getElementById('form_valid');
     formValid.className = '';
     formValid.className = 'searching';
-    if (target.length < 1) {
+    if (handleEmptyQuery && (target.length < 1)) {
       // formValid.className = 'error';
-      formValid.innerHTML = 'Displaying top streams...';
+      formValid.innerHTML = 'Displaying top streams';
       SetSearchType(document.querySelector('#default_search_type'));
-      SearchAPI(_env.url + 'streams/?');
-    } else {
+      SearchAPI(_env.url + 'streams/?limit=' + _env.limit);
+    } else if (target.length >= 1) {
       formValid.innerHTML = 'Searching for ' + target + '...';
       SearchAPI(_env.url + 'search/' + _env.searchType + '?limit=' + _env.limit + '&q=' + target + _env.options);
     }
-    return false;
-  };
+  }
 
   function OpenOptions() {
     var options = document.querySelector('#additional_options');
@@ -63,6 +67,7 @@ window.onload = function() {
   function SearchAPI(query) {
     jsonp(query, 
       function(data) {
+        // console.log(data);
         FillBodyBox(data);
       },
       function() {
@@ -114,19 +119,21 @@ window.onload = function() {
     _env.prev = (_env.page <= 1) ? null : data._links.prev;
     _env.next = (_env.page >= lastPage) ? null : data._links.next;
     bodyBox.querySelector('#total_results').textContent = 'Total results: ' + total;
-    bodyBox.querySelector('#body_box_header').className = '';
+    bodyBox.querySelector('#body_box_header').className = 'visible';
     bodyBox.querySelector('#curr_page').textContent = _env.page + '/' + lastPage;
   }
 
   function CreateStreamEntry(entry) {
-    var twitchEntry ='<div class="stream_entry">' +
-                     '  <img src="' + entry.preview.medium + '" class="stream_image">' +
-                     '  <div class="stream_info">' +
-                     '    <div class="stream_name">' + entry.channel.display_name + '</div>' +
-                     '    <div class="stream_game"><span class=game>' + entry.channel.game + '</span> - ' + entry.viewers + ' viewers</div>' +
-                     '    <div class="stream_description">' + entry.channel.status + '</div>' +
+    var twitchEntry ='<a href="#">' +
+                     '  <div class="stream_entry">' +
+                     '    <img src="' + entry.preview.medium + '" class="stream_image">' +
+                     '    <div class="stream_info">' +
+                     '      <div class="stream_name">' + entry.channel.display_name + '</div>' +
+                     '      <div class="stream_game"><span class=game>' + entry.channel.game + '</span> - ' + entry.viewers + ' viewers</div>' +
+                     '      <div class="stream_description">' + entry.channel.status + '</div>' +
+                     '    </div>' +
                      '  </div>' +
-                     '</div>';
+                     '</a>';
     return twitchEntry;
   }
 
@@ -165,7 +172,7 @@ window.onload = function() {
     };
     var stream = document.querySelector('#stream_view');
     if (stream.querySelector('iframe')) {
-      console.log('iframe exists');
+      // console.log('iframe exists');
       _env.player.setChannel(channelName);
       _env.player.play();
     } else {
@@ -221,23 +228,25 @@ window.onload = function() {
     }
     document.getElementsByClassName('selected')[0].className = '';
     node.className = 'selected';
+    Search();
   }
 
   function SetResultsVal(node) {
     _env.limit = parseInt(node.textContent);
     document.getElementsByClassName('selected')[1].className = '';
     node.className = 'selected';
+    Search(true);
   }
 
   function OnChannelClick(event) {
     var name;
     if (event.target.className === "stream_entry") {
       name = event.target.children[1].children[0].textContent;
-      console.log('Channel Selected : ', name);
+      // console.log('Channel Selected : ', name);
       CreateTwitchPlayer(name);
     } else if (event.target.className === "channel_entry") {
       name = event.target.children[1].children[0].textContent;
-      console.log('Channel Selected : ', name);
+      // console.log('Channel Selected : ', name);
       // window.open(name);
     } else if (event.target.id === 'prev_page') {
       PrevPage();
@@ -266,4 +275,6 @@ window.onload = function() {
     var results = regex.exec(url);
     return !results ? null : (!results[2] ? '' : decodeURIComponent(results[2].replace(/\+/g, " ")));
   }
+
+  Search(true);
 };

@@ -1,10 +1,18 @@
 body {
   font-family: Arial, sans-serif;
-  width: 99%;
+  width: 95%;
   color: black;
   /*color: #6441a4;*/
   background: #6441a5;
   cursor: default;
+}
+
+#page_name {
+  font-size: 20pt;
+  font-weight: bold;
+  background: #d8dcf0;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 #twitch_feed {
@@ -12,6 +20,12 @@ body {
   width: 50%;
   border: 1px solid black;
   background: #d8dce0;
+}
+
+@media (max-width: 900px) {
+ #twitch_feed {
+  width: 100%;
+ } 
 }
 
 #query_box {
@@ -23,6 +37,7 @@ body {
 
 #toggle_options {
   min-width: 90px;
+  margin-bottom: 5px;
 }
 
 #additional_options {
@@ -73,10 +88,19 @@ body {
   opacity: 1;
 }
 
+#form_valid.error {
+  opacity: 1;
+}
+
 #body_box {
   margin: auto;
   padding-left: 5%;
   padding-right: 5%;
+}
+
+#body_box_header.visible {
+  display: block;
+  padding-top: 5px;
 }
 
 #total_results {
