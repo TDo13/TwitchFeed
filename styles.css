@@ -7,6 +7,14 @@ body {
   cursor: default;
 }
 
+#page_name {
+  font-size: 20pt;
+  font-weight: bold;
+  background: #d8dcf0;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 #twitch_feed {
   margin: auto;
   width: 50%;

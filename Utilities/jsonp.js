@@ -9,6 +9,7 @@ function jsonp(url, success, fail, timeout) {
   window.cbWrapper = function(data) {
     window.clearTimeout(timeoutTrigger);
     success(data);
+    delete window.cbWrapper;
   };
   var script = document.createElement('script');
   script.type = 'text/javascript';
@@ -16,4 +17,7 @@ function jsonp(url, success, fail, timeout) {
   script.src = url+'&callback=cbWrapper';
 
   document.querySelector('head').appendChild(script);
+  script.onload = function() {
+    this.remove();
+  }
 }

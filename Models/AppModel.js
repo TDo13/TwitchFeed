@@ -2,7 +2,7 @@
 
 function AppModel() {
   this._url = 'https://api.twitch.tv/kraken/';
-  this.streams = [];
+  this.streams = {};
   this.options = '';
   this.limit = 10;
   this.searchType = 'streams';
@@ -38,7 +38,7 @@ AppModel.prototype = {
   //Param: (JSONObject)
   AddStreams: function(streams) {
     this.streams = streams;
-    this.newStreams.notify({streams: streams});
+    this.newStreams.notify({streams: this.streams});
   },
   GetStreams: function() {
     return this.streams;
@@ -91,6 +91,7 @@ AppModel.prototype = {
 
   /*
     Param: object {page: (Int),
+                   lastPage: (Int),
                    total: (Int),
     }
   */

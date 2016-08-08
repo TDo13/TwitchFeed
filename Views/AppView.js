@@ -11,8 +11,8 @@ function AppView(model, elements) {
 
   //Attaching listeners from model to view
   var _this = this;
-  this._model.newStreams.attach(function() {
-    _this.FillBodyBox();
+  this._model.newStreams.attach(function(sender, args) {
+    _this.FillBodyBox(args.streams);
   });
   this._model.newSearch.attach(function(sender, args) {
     _this.UpdateSearchView(args);
@@ -34,16 +34,18 @@ function AppView(model, elements) {
   });
 
   //Attaching listeners from view to HTML
-  this._elements.bodyBox.addEventListener('click', function(e) {
-    _this.OnBodyClick.notify({event: e});
-  });
-  this._elements.headerBox.addEventListener('click', function(e) {
-    _this.OnHeaderClick.notify({event: e});
-  });
-  this._elements.queryBox.addEventListener('submit', function(e) {
-    e.preventDefault();
-    _this.OnQuerySubmit.notify({event: e.target});
-  });
+  if (this._elements) {
+    this._elements.bodyBox.addEventListener('click', function(e) {
+      _this.OnBodyClick.notify({event: e});
+    });
+    this._elements.headerBox.addEventListener('click', function(e) {
+      _this.OnHeaderClick.notify({event: e});
+    });
+    this._elements.queryBox.addEventListener('submit', function(e) {
+      e.preventDefault();
+      _this.OnQuerySubmit.notify({event: e.target});
+    });
+  }
 }
 
 AppView.prototype = {
@@ -58,9 +60,9 @@ AppView.prototype = {
     }
   },
 
-  FillBodyBox: function() {
+  FillBodyBox: function(data) {
     // this._model.SetSelfURI(data._links.self);
-    var data = this._model.GetStreams();
+    // var data = this._model.GetStreams();
     var htmlString;
     var streamList, oldList;
     var $bodyBox = document.getElementById('body_box');
@@ -87,7 +89,9 @@ AppView.prototype = {
 
       //hide the old list of streams (remove if one already exists) 
       $bodyBox.insertBefore(streamList, oldList);    
-      $bodyBox.removeChild(oldList);
+      if(oldList) {
+        $bodyBox.removeChild(oldList);
+      }
     }
   },
 
@@ -175,7 +179,7 @@ AppView.prototype = {
     else if (type === 'limit') {
       advancedOptions[1].className = '';
       args.node.className = 'selected';
-      topStreams = target[0].value ? false : true;
+      topStreams = target[0] ? (target[0].value ? false : true) : false;
     }
     this.NewSearch.notify({
       target: target,
