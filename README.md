@@ -1,6 +1,4 @@
 # TwitchFeed
-=======
-# TwitchFeed
 
 TwitchFeed is a simple and lightweight website designed to provide access to multiple TwitchAPI search endpoints.
 
