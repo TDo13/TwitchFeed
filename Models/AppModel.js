@@ -134,9 +134,10 @@ AppModel.prototype = {
     return this.player;
   },
 
-  TogglePlayer: function(setActive = false) {
+  TogglePlayer: function(setActive) {
+    var active = setActive || false;
     this.newPlayerToggle.notify({
-      setActive: setActive
+      setActive: active
     });
   },
 

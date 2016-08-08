@@ -32,11 +32,12 @@ function AppController(model, view) {
 }
 
 AppController.prototype = {
-  Search: function(event, handleEmptyQuery = false) {
+  Search: function(event, handleEmptyQuery) {
+    var emptyQuery = handleEmptyQuery || false;
     // console.log('searching!');
     var model = this._model;
     var target;
-    if (handleEmptyQuery) {
+    if (emptyQuery) {
       this._model.IsSearching(true, 'Displaying top streams');
       this.SearchAPI(model.GetURL() + 'streams/?limit=' + model.GetLimit());
     } else {
